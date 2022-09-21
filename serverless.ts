@@ -4,8 +4,10 @@ import "reflect-metadata";
 import { dynamoDbLocalConfig } from "./serverless/customs/dynamodb-local";
 import { dynamoDbRole } from "./serverless/resources/dynamodb/dynamodb-policies";
 
+import jwtAuthorizer from "@modules/auth/infra/functions/authorizer";
+import signIn from "@modules/auth/infra/functions/sign-in/index";
+import getUser from "@modules/user/infra/functions/get-user/index";
 import signUp from "@modules/user/infra/functions/sign-up/index";
-
 import { usersTableResource } from "./serverless/resources/dynamodb/users-table";
 
 const serverlessConfiguration: AWS = {
@@ -31,6 +33,7 @@ const serverlessConfiguration: AWS = {
       AWS_ACCESS_KEY_ID: "fake",
       AWS_SECRET_ACCESS_KEY: "fake",
       USERS_TABLE_NAME: "${self:custom.tableNames.users}",
+      JWT_SECRET: "secret",
     },
   },
   resources: {
@@ -40,7 +43,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { signUp },
+  functions: { signUp, signIn, getUser, jwtAuthorizer },
   package: { individually: true },
   custom: {
     esbuild: {

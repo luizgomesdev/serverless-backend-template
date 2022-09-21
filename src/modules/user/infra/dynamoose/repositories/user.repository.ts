@@ -24,7 +24,7 @@ export default class UserRepository implements IUserRepository {
     try {
       console.info(`[UserRepository] Finding user with email: ${email}`);
       const user = await this.repository.query("email").eq(email).exec();
-      return user.count != 0 ? (user.toJSON() as IUser) : null;
+      return user.count != 0 ? (user.toJSON()[0] as IUser) : null;
     } catch (error) {
       console.error(`[UserRepository] Error finding user: ${JSON.stringify(error, null, 2)}`);
       console.error(error);
