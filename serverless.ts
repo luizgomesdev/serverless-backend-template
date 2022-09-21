@@ -1,13 +1,11 @@
 import type { AWS } from "@serverless/typescript";
 import "reflect-metadata";
+import { authFunctions } from "./src/modules/auth/index";
+import { userFunctions } from "./src/modules/user";
 
 import { dynamoDbLocalConfig } from "./serverless/customs/dynamodb-local";
 import { dynamoDbRole } from "./serverless/resources/dynamodb/dynamodb-policies";
 
-import jwtAuthorizer from "@modules/auth/infra/functions/authorizer";
-import signIn from "@modules/auth/infra/functions/sign-in/index";
-import getUser from "@modules/user/infra/functions/get-user/index";
-import signUp from "@modules/user/infra/functions/sign-up/index";
 import { usersTableResource } from "./serverless/resources/dynamodb/users-table";
 
 const serverlessConfiguration: AWS = {
@@ -43,7 +41,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { signUp, signIn, getUser, jwtAuthorizer },
+  functions: Object.assign({}, userFunctions, authFunctions),
   package: { individually: true },
   custom: {
     esbuild: {
