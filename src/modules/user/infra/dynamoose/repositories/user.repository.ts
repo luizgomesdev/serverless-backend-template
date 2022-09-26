@@ -2,7 +2,6 @@ import { CreateUserDTO } from "@modules/user/domain/dtos/createUser.dto";
 import { IUser } from "@modules/user/domain/entities/user.entity";
 import { ModelType } from "dynamoose/dist/General";
 import * as createError from "http-errors";
-import { omit } from "lodash";
 import { UserModel } from "../models/user.model";
 import { IUserRepository } from "./../../../domain/repositories/user.repository";
 
@@ -13,7 +12,7 @@ export default class UserRepository implements IUserRepository {
     try {
       console.info(`[UserRepository] Creating user with email: ${data.email}`);
       const user = await this.repository.create(data);
-      return this.sanitize(user.toJSON() as IUser);
+      return user.toJSON() as IUser;
     } catch (error) {
       console.error(`[UserRepository] Error creating user: ${JSON.stringify(error, null, 2)}`);
       throw new createError.BadRequest(error);
@@ -27,13 +26,19 @@ export default class UserRepository implements IUserRepository {
       return user.count != 0 ? (user.toJSON()[0] as IUser) : null;
     } catch (error) {
       console.error(`[UserRepository] Error finding user: ${JSON.stringify(error, null, 2)}`);
-      console.error(error);
       throw new createError.BadRequest(error);
     }
   }
 
-  private sanitize(data: IUser) {
-    return omit(data, ["password", "updatedAt"]);
+  async findById(id: string): Promise<Partial<IUser> | null> {
+    try {
+      console.info(`[UserRepository] Finding user with id: ${id}`);
+      const user = await this.repository.query("id").eq(id).exec();
+      return user.count != 0 ? (user.toJSON()[0] as IUser) : null;
+    } catch (error) {
+      console.error(`[UserRepository] Error finding user: ${JSON.stringify(error, null, 2)}`);
+      throw new createError.BadRequest(error);
+    }
   }
 }
 

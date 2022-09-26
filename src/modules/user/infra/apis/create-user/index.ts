@@ -6,7 +6,7 @@ export default {
     {
       http: {
         method: "post",
-        path: "user/sign-up",
+        path: "user",
       },
     },
   ],
