@@ -12,7 +12,9 @@ interface ISeedSourceOptions {
   sources: string[];
 }
 interface ISeedOptions {
-  [x: string]: ISeedSourceOptions;
+  [x: string]: {
+    sources: ISeedSourceOptions[];
+  };
 }
 
 export interface ILocalDynamoDBConfig {

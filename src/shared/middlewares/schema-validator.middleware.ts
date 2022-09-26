@@ -1,4 +1,5 @@
-import { SchemaValidator } from "@shared/domain/schemas/validator.schema";
+
+import { SchemaValidator } from "@shared/domain/schemas/schema-validator.schema";
 import { APIGatewayProxyEvent } from "aws-lambda";
 
 export const schemaValidatorMiddleware = (schema?: SchemaValidator) => {

@@ -3,7 +3,7 @@ import { CreateUserDTO } from "@modules/user/domain/dtos/createUser.dto";
 import { formatJSONResponse } from "@shared/libraries/api-gateway";
 import { middyfy } from "@shared/libraries/middyfy";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { createUserUseCase } from "../../use-cases/create-user.usecase";
+import { createUserUseCase } from "../../../use-cases/create-user.usecase";
 
 import { signUpBodySchema } from "./validator";
 
@@ -14,4 +14,6 @@ const singUp = async ({ body }: APIGatewayProxyEvent): Promise<APIGatewayProxyRe
   return formatJSONResponse(user);
 };
 
-export const main = middyfy(singUp, signUpBodySchema);
+export const main = middyfy(singUp, {
+  schemaValidator: signUpBodySchema,
+});

@@ -1,14 +1,14 @@
 import { userRepository } from "@modules/user/infra/dynamoose/repositories/user.repository";
 import * as bcrypt from "bcryptjs";
 import * as createError from "http-errors";
-import { CreateUserDTO } from "../../domain/dtos/createUser.dto";
-import { User } from "../../domain/entities/user.entity";
-import { UserRepository } from "../../domain/repositories/user.repository";
+import { CreateUserDTO } from "../domain/dtos/createUser.dto";
+import { IUser } from "../domain/entities/user.entity";
+import { IUserRepository } from "../domain/repositories/user.repository";
 
 class CreateUserUseCase {
-  constructor(private readonly usersRepository: UserRepository) {}
+  constructor(private readonly usersRepository: IUserRepository) {}
 
-  async execute({ name, email, password }: CreateUserDTO): Promise<User> {
+  async execute({ name, email, password }: CreateUserDTO): Promise<Partial<IUser>> {
     const userAlreadyExists = await this.usersRepository.findByEmail(email);
 
     console.info(`[CreateUserUseCase] User already exists: ${!!userAlreadyExists}`);
