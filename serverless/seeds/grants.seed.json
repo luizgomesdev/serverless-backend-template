@@ -1,0 +1,65 @@
+[
+  {
+    "id": "852ca701-5c96-4ea8-b3b5-879e50e83852",
+    "role": "admin",
+    "resource": "video",
+    "action": "create:any",
+    "attributes": "*, !views"
+  },
+  {
+    "id": "f131c8e6-900f-49e9-bc55-342b7b297079",
+    "role": "admin",
+    "resource": "video",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "id": "9e4009c6-2856-4b4a-9b39-2fae666479e3",
+    "role": "admin",
+    "resource": "video",
+    "action": "update:any",
+    "attributes": "*, !views"
+  },
+  {
+    "id": "d4d0d6b1-29c9-441c-8d02-1add035b53b0",
+    "role": "admin",
+    "resource": "video",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "id": "d1d44109-3a36-4a31-8de6-49a778736122",
+    "role": "user",
+    "resource": "video",
+    "action": "create:own",
+    "attributes": "*, !rating, !views"
+  },
+  {
+    "id": "a5cbb289-8a18-4aea-bd7e-8c26c5754294",
+    "role": "user",
+    "resource": "video",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "id": "e0743275-b68b-437f-a128-50a02455f399",
+    "role": "user",
+    "resource": "video",
+    "action": "update:own",
+    "attributes": "*, !rating, !views"
+  },
+  {
+    "id": "1244666c-f6c3-4466-8dcb-6758b2f7fb69",
+    "role": "user",
+    "resource": "video",
+    "action": "delete:own",
+    "attributes": "*"
+  },
+  {
+    "id": "fe38a4f1-f16e-4651-8f0a-88b4ddd1fcfb",
+    "role": "user",
+    "resource": "profile",
+    "action": "read:own",
+    "attributes": "*"
+  }
+]

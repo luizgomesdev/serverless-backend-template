@@ -1,21 +1,19 @@
+import { RolesEnum } from "./../../../domain/enums/roles.enum";
+
 import { AcessControlActionsEnum } from "@shared/domain/enums/actions.enum";
 import { ResourcesEnum } from "@shared/domain/enums/resources.enum";
 import { formatJSONResponse } from "@shared/libraries/api-gateway";
 import { middyfy } from "@shared/libraries/middyfy";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
-const getUser = async ({
-  requestContext: {
-    authorizer: { principalId },
-  },
-}: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
-  console.info("[GetUser] Event from: ", principalId);
+const debug = async (_: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   return formatJSONResponse({});
 };
 
-export const main = middyfy(getUser, {
+export const main = middyfy(debug, {
   accessControlSchema: {
-    resource: ResourcesEnum.PROFILE,
-    action: AcessControlActionsEnum.READ_OWN,
+    role: RolesEnum.USER,
+    resource: ResourcesEnum.VIDEO,
+    action: AcessControlActionsEnum.CREATE_OWN,
   },
 });

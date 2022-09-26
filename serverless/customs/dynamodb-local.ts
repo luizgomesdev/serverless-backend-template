@@ -8,4 +8,14 @@ export const dynamoDbLocalConfig: ILocalDynamoDBConfig = {
     migrate: true,
     seed: true,
   },
+  seed: {
+    grants: {
+      sources: [
+        {
+          table: "software-service-serverless-local-grants",
+          sources: ["serverless/seeds/grants.seed.json"],
+        },
+      ],
+    },
+  },
 };

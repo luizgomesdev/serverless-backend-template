@@ -22,7 +22,7 @@ export class SignInUseCase {
       throw new createError.BadRequest("Email or password is incorrect. ");
     }
 
-    const token = sign({ sub: user.id }, process.env.JWT_SECRET, {
+    const token = sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET, {
       expiresIn: 86400,
     });
 

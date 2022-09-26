@@ -1,11 +1,13 @@
 import type { AWS } from "@serverless/typescript";
 import "reflect-metadata";
+import { grantsTableResource } from "./serverless/resources/dynamodb/grants-table";
 import { authFunctions } from "./src/modules/auth/index";
 import { userFunctions } from "./src/modules/user";
 
 import { dynamoDbLocalConfig } from "./serverless/customs/dynamodb-local";
 import { dynamoDbRole } from "./serverless/resources/dynamodb/dynamodb-policies";
 
+import { sharedFunctions } from "@shared/infra";
 import { usersTableResource } from "./serverless/resources/dynamodb/users-table";
 
 const serverlessConfiguration: AWS = {
@@ -31,17 +33,19 @@ const serverlessConfiguration: AWS = {
       AWS_ACCESS_KEY_ID: "fake",
       AWS_SECRET_ACCESS_KEY: "fake",
       USERS_TABLE_NAME: "${self:custom.tableNames.users}",
+      GRANTS_TABLE_NAME: "${self:custom.tableNames.grants}",
       JWT_SECRET: "secret",
     },
   },
   resources: {
     Resources: {
       UsersTableResource: usersTableResource,
+      GrantsTableResource: grantsTableResource,
       DynamoDBRole: dynamoDbRole,
     },
   },
   // import the function via paths
-  functions: Object.assign({}, userFunctions, authFunctions),
+  functions: Object.assign({}, sharedFunctions, userFunctions, authFunctions),
   package: { individually: true },
   custom: {
     esbuild: {
@@ -56,6 +60,7 @@ const serverlessConfiguration: AWS = {
     },
     tableNames: {
       users: "${self:service}-${self:provider.stage}-users",
+      grants: "${self:service}-${self:provider.stage}-grants",
     },
     dynamodb: dynamoDbLocalConfig,
   },

@@ -14,9 +14,16 @@ const jwtAuthorizer = async (
   if (scheme !== "Bearer") throw new createHttpError.Unauthorized();
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET);
+    const decoded = verify(token, process.env.JWT_SECRET) as {
+      sub: string;
+      role: string;
+    };
+
     callback(null, {
       principalId: decoded.sub as string,
+      context: {
+        role: decoded.role as string,
+      },
       policyDocument: {
         Version: "2012-10-17",
         Statement: [
@@ -28,8 +35,6 @@ const jwtAuthorizer = async (
         ],
       },
     });
-
-    console.info("decoded", decoded);
   } catch (error) {
     console.error(`[Authorizer] Error: ${error.message}`);
     throw new createHttpError.Unauthorized();
